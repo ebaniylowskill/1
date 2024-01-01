@@ -6,14 +6,12 @@ struct Radar {
     LocalPlayer* localPlayer;
     std::vector<Player*>* players;
 
-    const int RADAR_ZOOM = 20;
-    const int WINDOW_INIT_WIDTH = 300;
-    const int WINDOW_INIT_HEIGHT = 300;
-    const int ENEMY_SCALE_DIVIDER = 35; //This is the inverse of the size of the enemies on the radar. Smaller number means bigger enemies!
-
     Display* display;
     GC gc; //Graphics context (our drawing pen!)
     int counter;
+    bool radarCreated;
+    bool radarDestroyed;
+    bool radarDisplayed;
 
     //UI components
     Window window;
@@ -37,25 +35,31 @@ struct Radar {
         this->level = level;
         this->localPlayer = localPlayer;
         this->players = players;
-
-        createRootWindow();
+        
+	radarDestroyed = false;	
+	createRootWindow();
+	
+	if (cl->SCREEN_LEFT_WIDTH > 0) cl->SCREEN_WIDTH = cl->SCREEN_WIDTH + cl->SCREEN_LEFT_WIDTH;
     }
 
     void createRootWindow() {
         int screen = DefaultScreen(display);
         Window root = RootWindow(display, screen);
-        window = XCreateSimpleWindow(display, root, 0, 0, WINDOW_INIT_WIDTH, WINDOW_INIT_HEIGHT, 0,
+        //window = XCreateSimpleWindow(display, root, 0, 0, WINDOW_INIT_WIDTH, WINDOW_INIT_HEIGHT, 0,
+        window = XCreateSimpleWindow(display, root, 0, 0, cl->RADAR_SIZE, cl->RADAR_SIZE, 0,
             BlackPixel(display, screen),
             WhitePixel(display, screen));
 
         //only capture event that we care about: expose(show window) and resizing
         XSelectInput(display, window, ExposureMask | KeyPressMask | StructureNotifyMask);
 
-        //Redirect & move top left
+        //Redirect & move where set up by INI file
         XSetWindowAttributes attrib;
         attrib.override_redirect = True;
         XChangeWindowAttributes(display, window, CWOverrideRedirect, &attrib);
-        XMoveWindow(display, window, 0, 0);
+        //XMoveWindow(display, window, 0, 0);
+        //printf("Moving Window to %d???\n", cl->RADAR_POSITION);
+        moveWindow();
 
         //always stay on top
         Atom netWmState = XInternAtom(display, "_NET_WM_STATE", False);
@@ -72,10 +76,66 @@ struct Radar {
             unsigned long status;
         } MWMHints = { 2, 0, 0, 0, 0 };
         XChangeProperty(display, window, motif_hints, motif_hints, 32, PropModeReplace, (unsigned char*)&MWMHints, 5);
-
-        //show the window 
-        XMapWindow(display, window);
-        XFlush(display);
+        
+        radarCreated = true;
+        radarDisplayed = false;
+        radarDestroyed = false;
+        //printf("R:%d RC:%d RD:%d RDis:%d - Create Root Window!\n", cl->FEATURE_RADAR_ON, radarCreated, radarDestroyed, radarDisplayed);
+        showWindow();
+    }
+    
+    void showWindow() {
+    	//show the window 
+    	if (!radarDisplayed) {
+		if (cl->FEATURE_RADAR_ON && radarCreated) {
+			XMapWindow(display, window);
+			XFlush(display);
+			radarCreated = true;
+			radarDisplayed = true;
+			radarDestroyed = false;
+			//printf("R:%d RC:%d RD:%d RDis:%d - Display Radar Window!\n", cl->FEATURE_RADAR_ON, radarCreated, radarDestroyed, radarDisplayed);
+		} else if (cl->FEATURE_RADAR_ON && !radarCreated) {
+			createRootWindow();
+			radarCreated = true;
+			radarDisplayed = false;
+			radarDestroyed = false;
+			//printf("R:%d RC:%d RD:%d RDis:%d - Create Root Window and Show Window\n", cl->FEATURE_RADAR_ON, radarCreated, radarDestroyed, radarDisplayed);
+			showWindow();
+		} else if (!cl->FEATURE_RADAR_ON && !radarDestroyed) {
+			XDestroyWindow(display, window);
+			radarCreated = false;
+			radarDisplayed = false;
+			radarDestroyed = true;
+			//printf("R:%d RC:%d RD:%d RDis:%d - Destroy Radar Window\n", cl->FEATURE_RADAR_ON, radarCreated, radarDestroyed, radarDisplayed);
+		}
+	} else {
+		if (!cl->FEATURE_RADAR_ON && !radarDestroyed) {
+			XDestroyWindow(display, window);
+			radarCreated = false;
+			radarDisplayed = false;
+			radarDestroyed = true;
+			//printf("R:%d RC:%d RD:%d RDis:%d - Destroy Radar Window\n", cl->FEATURE_RADAR_ON, radarCreated, radarDestroyed, radarDisplayed);
+		} 
+	}
+    }
+    
+    void moveWindow() {
+	//printf("Moving Window to %d!!!\n", cl->RADAR_POSITION);
+	int newScrWidth;
+	(cl->SCREEN_LEFT_WIDTH > 0) ? newScrWidth = cl->SCREEN_WIDTH + cl->SCREEN_LEFT_WIDTH : newScrWidth = cl->SCREEN_WIDTH;
+	
+	// Position of the window (X,Y)
+    	if (cl->RADAR_POSITION == 2) {
+		XMoveWindow(display, window, newScrWidth - cl->RADAR_SIZE, 0); 
+	} else if (cl->RADAR_POSITION == 3) {
+		XMoveWindow(display, window, 0, cl->SCREEN_HEIGHT - cl->RADAR_SIZE); 
+	} else if (cl->RADAR_POSITION == 4) {
+		XMoveWindow(display, window, newScrWidth - cl->RADAR_SIZE, cl->SCREEN_HEIGHT - cl->RADAR_SIZE);
+	} else {
+		// Default position is upper left
+		XMoveWindow(display, window, 0, 0);
+	}
+	return;
     }
 
     void RotateCartessianCoords(int x, int y, int* newX, int* newY, float angleDegrees) {
@@ -85,8 +145,10 @@ struct Radar {
     }
 
     void ScaleCartesianCoords(int x, int y, int* newX, int* newY) {
-        *newX = x * std::max(windowWidth, 1) / WINDOW_INIT_WIDTH / RADAR_ZOOM;
-        *newY = y * std::max(windowHeight, 1) / WINDOW_INIT_HEIGHT / RADAR_ZOOM;
+        //*newX = x * std::max(windowWidth, 1) / WINDOW_INIT_WIDTH / cl->RADAR_ZOOM;
+	*newX = x * std::max(windowWidth, 1) / cl->RADAR_SIZE / cl->RADAR_ZOOM;
+        //*newY = y * std::max(windowHeight, 1) / WINDOW_INIT_HEIGHT / cl->RADAR_ZOOM;
+        *newY = y * std::max(windowHeight, 1) / cl->RADAR_SIZE / cl->RADAR_ZOOM;
     }
 
     void CartesianCoordsToX11Coords(int cartX, int cartY, int* x11X, int* x11Y, int shapeWidth, int shapeWeight) {
@@ -115,27 +177,40 @@ struct Radar {
         windowHeightHalf = windowHeight / 2;
 
         //save enemy dimensions
-        enemyWidth = windowWidth / ENEMY_SCALE_DIVIDER;
+        //enemyWidth = windowWidth / ENEMY_SCALE_DIVIDER;
+        enemyWidth = windowWidth / cl->RADAR_ENEMY_SCALE_DIVIDER;
         enemyWidthHalf = enemyWidth / 2;
 
-        enemyHeight = windowHeight / ENEMY_SCALE_DIVIDER;
+        //enemyHeight = windowHeight / ENEMY_SCALE_DIVIDER;
+        enemyHeight = windowHeight / cl->RADAR_ENEMY_SCALE_DIVIDER;
         enemyHeightHalf = enemyHeight / 2;
     }
 
     void processEvents(int in_counter) {
+    	if (!cl->FEATURE_RADAR_ON) { 
+		showWindow();
+    		return; 
+    	}
+    	showWindow();
         counter = in_counter;
         while (XPending(display) > 0) {
             XEvent event;
             XNextEvent(display, &event);
             if (event.type == Expose)
                 handleWindowExposeOrResize();
-
             else if (event.type == ConfigureNotify)
                 handleWindowExposeOrResize();
         }
     }
 
+    void resizeWindow() {
+    	//printf("RADAR: Resizing window to %d x %d... \n", cl->RADAR_SIZE, cl->RADAR_SIZE);
+    	XResizeWindow(display, window, cl->RADAR_SIZE, cl->RADAR_SIZE);
+    	return;
+    }
+    
     void repaint() {
+    	if (!cl->FEATURE_RADAR_ON) { return; }
         //bg
         XSetForeground(display, gc, 0x020617);
         XFillRectangle(display, window, gc, 0, 0, windowWidth, windowHeight);

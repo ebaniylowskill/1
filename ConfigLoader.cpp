@@ -7,12 +7,18 @@ struct ConfigLoader {
     ConfigLoader() {
         reloadFile();
     }
+    
+    //screen resolution
+    int SCREEN_WIDTH = 2560;
+    int SCREEN_HEIGHT = 1440;
+    int SCREEN_LEFT_WIDTH = 0;
 
     //features
     bool FEATURE_AIMBOT_ON = true;
     bool FEATURE_SENSE_ON = true;
     bool FEATURE_TRIGGERBOT_ON = true;
     bool FEATURE_NORECOIL_ON = true;
+    bool FEATURE_RADAR_ON = true;
 
     //norecoil    
     int NORECOIL_PITCH_REDUCTION = 15;
@@ -52,13 +58,25 @@ struct ConfigLoader {
     int SENSE_ENEMY_LOCKEDON_BODY_STYLE = 112;
     int SENSE_ENEMY_LOCKEDON_BORDER_STYLE = 108;
     int SENSE_ENEMY_LOCKEDON_BORDER_WIDTH = 120;
+    
+    // radar
+    int RADAR_POSITION = 1;
+    int RADAR_SIZE = 300;
+    int RADAR_ZOOM = 20;
+    int RADAR_ENEMY_SCALE_DIVIDER = 35;
 
     void loadVariables(std::string key, std::string val) {
+    	//screen resolution
+	SCREEN_WIDTH = (key.compare("SCREEN_WIDTH") != 0) ? SCREEN_WIDTH : stoi(val);
+        SCREEN_HEIGHT = (key.compare("SCREEN_HEIGHT") != 0) ? SCREEN_HEIGHT : stoi(val);
+	SCREEN_LEFT_WIDTH = (key.compare("SCREEN_LEFT_WIDTH") != 0) ? SCREEN_LEFT_WIDTH : stoi(val);
+        
         //features
         FEATURE_AIMBOT_ON = (key.compare("FEATURE_AIMBOT_ON") != 0) ? FEATURE_AIMBOT_ON : toBool(val);
         FEATURE_SENSE_ON = (key.compare("FEATURE_SENSE_ON") != 0) ? FEATURE_SENSE_ON : toBool(val);
         FEATURE_TRIGGERBOT_ON = (key.compare("FEATURE_TRIGGERBOT_ON") != 0) ? FEATURE_TRIGGERBOT_ON : toBool(val);
         FEATURE_NORECOIL_ON = (key.compare("FEATURE_NORECOIL_ON") != 0) ? FEATURE_NORECOIL_ON : toBool(val);
+        FEATURE_RADAR_ON = (key.compare("FEATURE_RADAR_ON") != 0) ? FEATURE_RADAR_ON : toBool(val);
 
         //norecoil        
         NORECOIL_PITCH_REDUCTION = (key.compare("NORECOIL_PITCH_REDUCTION") != 0) ? NORECOIL_PITCH_REDUCTION : stoi(val);
@@ -72,6 +90,8 @@ struct ConfigLoader {
         AIMBOT_SMOOTH_EXTRA_BY_DISTANCE = (key.compare("AIMBOT_SMOOTH_EXTRA_BY_DISTANCE") != 0) ? AIMBOT_SMOOTH_EXTRA_BY_DISTANCE : stoi(val);
         AIMBOT_FOV = (key.compare("AIMBOT_FOV") != 0) ? AIMBOT_FOV : stod(val);
         AIMBOT_DEADZONE = (key.compare("AIMBOT_DEADZONE") != 0) ? AIMBOT_DEADZONE : stod(val);
+        AIMBOT_MIN_DISTANCE = (key.compare("AIMBOT_MIN_DISTANCE") != 0) ? AIMBOT_MIN_DISTANCE : stoi(val);
+        AIMBOT_MAX_DISTANCE = (key.compare("AIMBOT_MAX_DISTANCE") != 0) ? AIMBOT_MAX_DISTANCE : stoi(val);
 
         //sense        
         SENSE_ENEMY_COLOR_SHIELD_BASED = (key.compare("SENSE_ENEMY_COLOR_SHIELD_BASED") != 0) ? SENSE_ENEMY_COLOR_SHIELD_BASED : toBool(val);
@@ -96,16 +116,29 @@ struct ConfigLoader {
         SENSE_ENEMY_LOCKEDON_BODY_STYLE = (key.compare("SENSE_ENEMY_LOCKEDON_BODY_STYLE") != 0) ? SENSE_ENEMY_LOCKEDON_BODY_STYLE : stoi(val);
         SENSE_ENEMY_LOCKEDON_BORDER_STYLE = (key.compare("SENSE_ENEMY_LOCKEDON_BORDER_STYLE") != 0) ? SENSE_ENEMY_LOCKEDON_BORDER_STYLE : stoi(val);
         SENSE_ENEMY_LOCKEDON_BORDER_WIDTH = (key.compare("SENSE_ENEMY_LOCKEDON_BORDER_WIDTH") != 0) ? SENSE_ENEMY_LOCKEDON_BORDER_WIDTH : stoi(val);
+        
+        // Radar
+        RADAR_POSITION = (key.compare("RADAR_POSITION") != 0) ? RADAR_POSITION : stoi(val);
+        RADAR_SIZE = (key.compare("RADAR_SIZE") != 0) ? RADAR_SIZE : stoi(val);
+        RADAR_ZOOM = (key.compare("RADAR_ZOOM") != 0) ? RADAR_ZOOM : stoi(val);
+        RADAR_ENEMY_SCALE_DIVIDER = (key.compare("RADAR_ENEMY_SCALE_DIVIDER") != 0) ? RADAR_ENEMY_SCALE_DIVIDER : stoi(val);
     }
 
     void print() {
         printf("\n==================== GRINDER SETTINGS LOADED ========================\n");
-
+        
+        //screen resolution
+        printf("SCREEN_WIDTH\t\t\t\t\t\t%.d\n", SCREEN_WIDTH);
+        printf("SCREEN_HEIGHT\t\t\t\t\t\t%.d\n", SCREEN_HEIGHT);
+        printf("SCREEN_LEFT_WIDTH\t\t\t\t\t\t%.d\n", SCREEN_LEFT_WIDTH);
+	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+	
         //features
         printf("FEATURE_AIMBOT_ON\t\t\t\t\t%s\n", FEATURE_AIMBOT_ON ? "YES" : "NO");
         printf("FEATURE_SENSE_ON\t\t\t\t\t%s\n", FEATURE_SENSE_ON ? "YES" : "NO");
         printf("FEATURE_TRIGGERBOT_ON\t\t\t\t\t%s\n", FEATURE_TRIGGERBOT_ON ? "YES" : "NO");
         printf("FEATURE_NORECOIL_ON\t\t\t\t\t%s\n", FEATURE_NORECOIL_ON ? "YES" : "NO");
+        printf("FEATURE_RADAR_ON\t\t\t\t\t%s\n", FEATURE_RADAR_ON ? "YES" : "NO");
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
         //norecoil
@@ -143,6 +176,13 @@ struct ConfigLoader {
         printf("SENSE_ENEMY_LOCKEDON_BODY_STYLE\t\t\t\t%.d\n", SENSE_ENEMY_LOCKEDON_BODY_STYLE);
         printf("SENSE_ENEMY_LOCKEDON_BORDER_STYLE\t\t\t%.d\n", SENSE_ENEMY_LOCKEDON_BORDER_STYLE);
         printf("SENSE_ENEMY_LOCKEDON_BORDER_WIDTH\t\t\t%.d\n", SENSE_ENEMY_LOCKEDON_BORDER_WIDTH);
+
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        
+        printf("RADAR_POSITION\t\t\t\t\t\t%d\n", RADAR_POSITION);
+        printf("RADAR_SIZE\t\t\t\t\t\t%.d\n", RADAR_SIZE);
+        printf("RADAR_ZOOM\t\t\t\t\t\t%.d\n", RADAR_ZOOM);
+        printf("RADAR_ENEMY_SCALE_DIVIDER\t\t\t\t%.d\n", RADAR_ENEMY_SCALE_DIVIDER);
 
         printf("=====================================================================\n\n");
     }
