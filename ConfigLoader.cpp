@@ -67,9 +67,9 @@ struct ConfigLoader {
 
     void loadVariables(std::string key, std::string val) {
     	//screen resolution
-	SCREEN_WIDTH = (key.compare("SCREEN_WIDTH") != 0) ? SCREEN_WIDTH : stoi(val);
+	    SCREEN_WIDTH = (key.compare("SCREEN_WIDTH") != 0) ? SCREEN_WIDTH : stoi(val);
         SCREEN_HEIGHT = (key.compare("SCREEN_HEIGHT") != 0) ? SCREEN_HEIGHT : stoi(val);
-	SCREEN_LEFT_WIDTH = (key.compare("SCREEN_LEFT_WIDTH") != 0) ? SCREEN_LEFT_WIDTH : stoi(val);
+	    SCREEN_LEFT_WIDTH = (key.compare("SCREEN_LEFT_WIDTH") != 0) ? SCREEN_LEFT_WIDTH : stoi(val);
         
         //features
         FEATURE_AIMBOT_ON = (key.compare("FEATURE_AIMBOT_ON") != 0) ? FEATURE_AIMBOT_ON : toBool(val);
@@ -130,7 +130,7 @@ struct ConfigLoader {
         //screen resolution
         printf("SCREEN_WIDTH\t\t\t\t\t\t%.d\n", SCREEN_WIDTH);
         printf("SCREEN_HEIGHT\t\t\t\t\t\t%.d\n", SCREEN_HEIGHT);
-        printf("SCREEN_LEFT_WIDTH\t\t\t\t\t\t%.d\n", SCREEN_LEFT_WIDTH);
+        printf("SCREEN_LEFT_WIDTH\t\t\t\t\t%.d\n", SCREEN_LEFT_WIDTH);
 	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 	
         //features

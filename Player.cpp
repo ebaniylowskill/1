@@ -1,4 +1,5 @@
 #pragma once
+
 struct Player {
     LocalPlayer* myLocalPlayer;
     int index;
@@ -117,7 +118,7 @@ struct Player {
         if (glowThroughWall != 2) mem::Write<int>(base + OFF_GLOW_THROUGH_WALL, 2);
         if (glowThroughWall != 2) mem::Write<int>(base + OFF_GLOW_FIX, 2);
         int id = 95;
-        if (highlightId != id) mem::Write<int>(base + OFF_GLOW_HIGHLIGHT_ID + 1, id);
+        if (highlightId != id) mem::Write<int>(base + OFF_GLOW_HIGHLIGHT_ID + 0, id);
     }
 
     void glow() {
@@ -126,7 +127,7 @@ struct Player {
         if (glowThroughWall != 2) mem::Write<int>(base + OFF_GLOW_FIX, 2);
         int id = (visible) ? 0 : 1;
         if (aimbotLocked) id = 2;
-        if (highlightId != id) mem::Write<int>(base + OFF_GLOW_HIGHLIGHT_ID + 1, id);
+        if (highlightId != id) mem::Write<int>(base + OFF_GLOW_HIGHLIGHT_ID + 0, id);
     }
 
     void glowShieldBased() {
@@ -134,12 +135,14 @@ struct Player {
         if (glowThroughWall != 2) mem::Write<int>(base + OFF_GLOW_THROUGH_WALL, 2);
         if (glowThroughWall != 2) mem::Write<int>(base + OFF_GLOW_FIX, 2);
         int id;
-        if (currentShields <= 0) id = 90;//no shields
-        else if (currentShields <= 50) id = 91;//white shields 
-        else if (currentShields <= 70) id = 92;//blue shields
-        else if (currentShields <= 100) id = 93;//purple shields / gold
-        else  id = 94;//red shields
-        if (highlightId != id) mem::Write<int>(base + OFF_GLOW_HIGHLIGHT_ID + 1, id);
+        
+        if (currentShields <= 0) id = 66;//no shields (20)
+        else if (currentShields <= 50) id = 32;//white shields 
+        else if (currentShields <= 70) id = 31;//blue shields
+        else if (currentShields <= 100) id = 30;//purple shields / gold
+        else  id = 7;//red shields*/
+
+        if (highlightId != id) mem::Write<int>(base + OFF_GLOW_HIGHLIGHT_ID + 0, id);
     }
 
     FloatVector2D calcDesiredAngles() {

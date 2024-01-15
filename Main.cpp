@@ -40,14 +40,14 @@ int main() {
 
             // will attempt to reload config if there have been any updates to it
             if (counter % 20 == 0) {
-		prevRadarSize = cl->RADAR_SIZE;
-		prevRadarPos = cl->RADAR_POSITION;
-		cl->reloadFile();
-		if (prevRadarSize != cl->RADAR_SIZE || prevRadarPos != cl->RADAR_POSITION) {
-			//printf("Resizing and Moving Window to %d...\n", cl->RADAR_POSITION);
-			radar->resizeWindow();
-			radar->moveWindow();
-		} 
+            prevRadarSize = cl->RADAR_SIZE;
+            prevRadarPos = cl->RADAR_POSITION;
+            cl->reloadFile();
+            if (prevRadarSize != cl->RADAR_SIZE || prevRadarPos != cl->RADAR_POSITION) {
+                //printf("Resizing and Moving Window to %d...\n", cl->RADAR_POSITION);
+                radar->resizeWindow();
+                radar->moveWindow();
+            } 
 	    }
 
             //read level and make sure it is playable

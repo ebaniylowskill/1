@@ -120,22 +120,22 @@ struct Radar {
     }
     
     void moveWindow() {
-	//printf("Moving Window to %d!!!\n", cl->RADAR_POSITION);
-	int newScrWidth;
-	(cl->SCREEN_LEFT_WIDTH > 0) ? newScrWidth = cl->SCREEN_WIDTH + cl->SCREEN_LEFT_WIDTH : newScrWidth = cl->SCREEN_WIDTH;
-	
-	// Position of the window (X,Y)
-    	if (cl->RADAR_POSITION == 2) {
-		XMoveWindow(display, window, newScrWidth - cl->RADAR_SIZE, 0); 
-	} else if (cl->RADAR_POSITION == 3) {
-		XMoveWindow(display, window, 0, cl->SCREEN_HEIGHT - cl->RADAR_SIZE); 
-	} else if (cl->RADAR_POSITION == 4) {
-		XMoveWindow(display, window, newScrWidth - cl->RADAR_SIZE, cl->SCREEN_HEIGHT - cl->RADAR_SIZE);
-	} else {
-		// Default position is upper left
-		XMoveWindow(display, window, 0, 0);
-	}
-	return;
+	    //printf("Moving Window to %d!!!\n", cl->RADAR_POSITION);
+        int newScrWidth;
+        (cl->SCREEN_LEFT_WIDTH > 0) ? newScrWidth = cl->SCREEN_WIDTH + cl->SCREEN_LEFT_WIDTH : newScrWidth = cl->SCREEN_WIDTH;
+        
+        // Position of the window (X,Y)
+            if (cl->RADAR_POSITION == 2) {
+            XMoveWindow(display, window, newScrWidth - cl->RADAR_SIZE, 0); 
+        } else if (cl->RADAR_POSITION == 3) {
+            XMoveWindow(display, window, cl->SCREEN_LEFT_WIDTH, cl->SCREEN_HEIGHT - cl->RADAR_SIZE); 
+        } else if (cl->RADAR_POSITION == 4) {
+            XMoveWindow(display, window, newScrWidth - cl->RADAR_SIZE, cl->SCREEN_HEIGHT - cl->RADAR_SIZE);
+        } else {
+            // Default position is upper left
+            XMoveWindow(display, window, cl->SCREEN_LEFT_WIDTH, 0);
+        }
+        return;
     }
 
     void RotateCartessianCoords(int x, int y, int* newX, int* newY, float angleDegrees) {
