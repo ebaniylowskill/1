@@ -1,22 +1,35 @@
 <details>
 <summary>Debian based dependencies</summary>
 
-## Intall build-essential / libx11-dev / libxtst-dev (Mandatory. You only need to do this once) !!!
+## Intall build-essential / libx11-dev / libxtst-dev / libxrender-dev (Mandatory. You only need to do this once) !!!
 `
-sudo apt-get install build-essential libx11-dev libxtst-dev
+sudo apt-get install build-essential libx11-dev libxtst-dev libxrender-dev
 `
 </details>
 
 <details>
 <summary>Arch based dependencies</summary>
 
-## Intall base-devel / libx11 / libxtst (Mandatory. You only need to do this once) !!!
+## Intall base-devel / libx11 / libxtst / libxrender (Mandatory. You only need to do this once) !!!
 `
-sudo pacman -Sy base-devel libx11 libxtst
+sudo pacman -Sy base-devel libx11 libxtst libxrender
 `
 </details>
 
+### 0. Introduction:
+```
+DISCLAIMER: This project is for educational purposes only.
+Features available are:
+- Aim Assist
+- ESP, including Mini Map and Level Map
+- RCS
+- Trigger Bot
+- Super Glide
+- Skin Changer
 
+CREDITS:
+- arturzxc, Azreol, savageroar07, NeedItem, SchuhuEule, Acknowledge, flixearth and all contributors from the UC forum.
+```
 
 ### 1. Download:
 ```

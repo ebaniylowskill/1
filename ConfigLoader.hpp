@@ -13,11 +13,20 @@ struct ConfigLoader {
     int SCREEN_HEIGHT = 1440;
     int SCREEN_LEFT_WIDTH = 0;
 
+    // Gane mode
+    bool IS_GAME_BR = true;
+
     //features
     bool FEATURE_AIMBOT_ON = true;
     bool FEATURE_SENSE_ON = true;
+    bool FEATURE_SPECTATOR_ON = true;
+    bool FEATURE_QUICKTURN_ON = true;
+    bool FEATURE_SKINCHANGER_ON = true;
     bool FEATURE_TRIGGERBOT_ON = true;
     bool FEATURE_NORECOIL_ON = true;
+    bool FEATURE_PRINT_LEVELS_ON = true;
+    bool FEATURE_SUPER_GLIDE_ON = true;
+    bool FEATURE_MAP_RADAR_ON = true;
     bool FEATURE_RADAR_ON = true;
 
     //norecoil    
@@ -28,42 +37,26 @@ struct ConfigLoader {
     bool AIMBOT_ACTIVATED_BY_ATTACK = true;
     bool AIMBOT_ACTIVATED_BY_ADS = false;
     std::string AIMBOT_ACTIVATED_BY_BUTTON = "XK_Shift_L";
+    std::string FEATURE_QUICKTURN_BUTTON = "XK_f";
+    std::string FEATURE_PRINT_LEVELS_BUTTON = "XK_p";
+    std::string FEATURE_MAP_RADAR_BUTTON = "XK_m";
     int AIMBOT_SMOOTH = 20;
+    float AIMBOT_SPEED = 40;
     int AIMBOT_SMOOTH_EXTRA_BY_DISTANCE = 1000;
     float AIMBOT_FOV = 5.0000;
-    float AIMBOT_DEADZONE = 0.0100;
+    bool AIMBOT_PREDICT_BULLETDROP = true;
+    bool AIMBOT_PREDICT_MOVEMENT = true;
+    bool AIMBOT_ALLOW_TARGET_SWITCH = true;
     int AIMBOT_MAX_DISTANCE = 100;
     int AIMBOT_MIN_DISTANCE = 1;
-
-    //sense
-    bool SENSE_ENEMY_COLOR_SHIELD_BASED = true;
-
-    float SENSE_ENEMY_VISIBLE_COLOR_RED = 0;
-    float SENSE_ENEMY_VISIBLE_COLOR_GREEN = 10;
-    float SENSE_ENEMY_VISIBLE_COLOR_BLUE = 0;
-    int SENSE_ENEMY_VISIBLE_BODY_STYLE = 112;
-    int SENSE_ENEMY_VISIBLE_BORDER_STYLE = 108;
-    int SENSE_ENEMY_VISIBLE_BORDER_WIDTH = 60;
-
-    float SENSE_ENEMY_INVISIBLE_COLOR_RED = 10;
-    float SENSE_ENEMY_INVISIBLE_COLOR_GREEN = 0;
-    float SENSE_ENEMY_INVISIBLE_COLOR_BLUE = 0;
-    int SENSE_ENEMY_INVISIBLE_BODY_STYLE = 112;
-    int SENSE_ENEMY_INVISIBLE_BORDER_STYLE = 108;
-    int SENSE_ENEMY_INVISIBLE_BORDER_WIDTH = 45;
-
-    float SENSE_ENEMY_LOCKEDON_COLOR_RED = 0;
-    float SENSE_ENEMY_LOCKEDON_COLOR_GREEN = 0;
-    float SENSE_ENEMY_LOCKEDON_COLOR_BLUE = 10;
-    int SENSE_ENEMY_LOCKEDON_BODY_STYLE = 112;
-    int SENSE_ENEMY_LOCKEDON_BORDER_STYLE = 108;
-    int SENSE_ENEMY_LOCKEDON_BORDER_WIDTH = 120;
+    float AIMBOT_DEADZONE = 0.0100;
     
     // radar
     int RADAR_POSITION = 1;
     int RADAR_SIZE = 300;
     int RADAR_ZOOM = 20;
     int RADAR_ENEMY_SCALE_DIVIDER = 35;
+
 
     void loadVariables(std::string key, std::string val) {
     	//screen resolution
@@ -89,49 +82,35 @@ struct ConfigLoader {
         AIMBOT_SMOOTH = (key.compare("AIMBOT_SMOOTH") != 0) ? AIMBOT_SMOOTH : stoi(val);
         AIMBOT_SMOOTH_EXTRA_BY_DISTANCE = (key.compare("AIMBOT_SMOOTH_EXTRA_BY_DISTANCE") != 0) ? AIMBOT_SMOOTH_EXTRA_BY_DISTANCE : stoi(val);
         AIMBOT_FOV = (key.compare("AIMBOT_FOV") != 0) ? AIMBOT_FOV : stod(val);
-        AIMBOT_DEADZONE = (key.compare("AIMBOT_DEADZONE") != 0) ? AIMBOT_DEADZONE : stod(val);
         AIMBOT_MIN_DISTANCE = (key.compare("AIMBOT_MIN_DISTANCE") != 0) ? AIMBOT_MIN_DISTANCE : stoi(val);
         AIMBOT_MAX_DISTANCE = (key.compare("AIMBOT_MAX_DISTANCE") != 0) ? AIMBOT_MAX_DISTANCE : stoi(val);
-
-        //sense        
-        SENSE_ENEMY_COLOR_SHIELD_BASED = (key.compare("SENSE_ENEMY_COLOR_SHIELD_BASED") != 0) ? SENSE_ENEMY_COLOR_SHIELD_BASED : toBool(val);
-
-        SENSE_ENEMY_VISIBLE_COLOR_RED = (key.compare("SENSE_ENEMY_VISIBLE_COLOR_RED") != 0) ? SENSE_ENEMY_VISIBLE_COLOR_RED : stoi(val);
-        SENSE_ENEMY_VISIBLE_COLOR_GREEN = (key.compare("SENSE_ENEMY_VISIBLE_COLOR_GREEN") != 0) ? SENSE_ENEMY_VISIBLE_COLOR_GREEN : stoi(val);
-        SENSE_ENEMY_VISIBLE_COLOR_BLUE = (key.compare("SENSE_ENEMY_VISIBLE_COLOR_BLUE") != 0) ? SENSE_ENEMY_VISIBLE_COLOR_BLUE : stoi(val);
-        SENSE_ENEMY_VISIBLE_BODY_STYLE = (key.compare("SENSE_ENEMY_VISIBLE_BODY_STYLE") != 0) ? SENSE_ENEMY_VISIBLE_BODY_STYLE : stoi(val);
-        SENSE_ENEMY_VISIBLE_BORDER_STYLE = (key.compare("SENSE_ENEMY_VISIBLE_BORDER_STYLE") != 0) ? SENSE_ENEMY_VISIBLE_BORDER_STYLE : stoi(val);
-        SENSE_ENEMY_VISIBLE_BORDER_WIDTH = (key.compare("SENSE_ENEMY_VISIBLE_BORDER_WIDTH") != 0) ? SENSE_ENEMY_VISIBLE_BORDER_WIDTH : stoi(val);
-
-        SENSE_ENEMY_INVISIBLE_COLOR_RED = (key.compare("SENSE_ENEMY_INVISIBLE_COLOR_RED") != 0) ? SENSE_ENEMY_INVISIBLE_COLOR_RED : stoi(val);
-        SENSE_ENEMY_INVISIBLE_COLOR_GREEN = (key.compare("SENSE_ENEMY_INVISIBLE_COLOR_GREEN") != 0) ? SENSE_ENEMY_INVISIBLE_COLOR_GREEN : stoi(val);
-        SENSE_ENEMY_INVISIBLE_COLOR_BLUE = (key.compare("SENSE_ENEMY_INVISIBLE_COLOR_BLUE") != 0) ? SENSE_ENEMY_INVISIBLE_COLOR_BLUE : stoi(val);
-        SENSE_ENEMY_INVISIBLE_BODY_STYLE = (key.compare("SENSE_ENEMY_INVISIBLE_BODY_STYLE") != 0) ? SENSE_ENEMY_INVISIBLE_BODY_STYLE : stoi(val);
-        SENSE_ENEMY_INVISIBLE_BORDER_STYLE = (key.compare("SENSE_ENEMY_INVISIBLE_BORDER_STYLE") != 0) ? SENSE_ENEMY_INVISIBLE_BORDER_STYLE : stoi(val);
-        SENSE_ENEMY_INVISIBLE_BORDER_WIDTH = (key.compare("SENSE_ENEMY_INVISIBLE_BORDER_WIDTH") != 0) ? SENSE_ENEMY_INVISIBLE_BORDER_WIDTH : stoi(val);
-
-        SENSE_ENEMY_LOCKEDON_COLOR_RED = (key.compare("SENSE_ENEMY_LOCKEDON_COLOR_RED") != 0) ? SENSE_ENEMY_LOCKEDON_COLOR_RED : stoi(val);
-        SENSE_ENEMY_LOCKEDON_COLOR_GREEN = (key.compare("SENSE_ENEMY_LOCKEDON_COLOR_GREEN") != 0) ? SENSE_ENEMY_LOCKEDON_COLOR_GREEN : stoi(val);
-        SENSE_ENEMY_LOCKEDON_COLOR_BLUE = (key.compare("SENSE_ENEMY_LOCKEDON_COLOR_BLUE") != 0) ? SENSE_ENEMY_LOCKEDON_COLOR_BLUE : stoi(val);
-        SENSE_ENEMY_LOCKEDON_BODY_STYLE = (key.compare("SENSE_ENEMY_LOCKEDON_BODY_STYLE") != 0) ? SENSE_ENEMY_LOCKEDON_BODY_STYLE : stoi(val);
-        SENSE_ENEMY_LOCKEDON_BORDER_STYLE = (key.compare("SENSE_ENEMY_LOCKEDON_BORDER_STYLE") != 0) ? SENSE_ENEMY_LOCKEDON_BORDER_STYLE : stoi(val);
-        SENSE_ENEMY_LOCKEDON_BORDER_WIDTH = (key.compare("SENSE_ENEMY_LOCKEDON_BORDER_WIDTH") != 0) ? SENSE_ENEMY_LOCKEDON_BORDER_WIDTH : stoi(val);
         
         // Radar
         RADAR_POSITION = (key.compare("RADAR_POSITION") != 0) ? RADAR_POSITION : stoi(val);
         RADAR_SIZE = (key.compare("RADAR_SIZE") != 0) ? RADAR_SIZE : stoi(val);
         RADAR_ZOOM = (key.compare("RADAR_ZOOM") != 0) ? RADAR_ZOOM : stoi(val);
         RADAR_ENEMY_SCALE_DIVIDER = (key.compare("RADAR_ENEMY_SCALE_DIVIDER") != 0) ? RADAR_ENEMY_SCALE_DIVIDER : stoi(val);
+
+        //random
+        FEATURE_SPECTATOR_ON = (key.compare("FEATURE_SPECTATOR_ON") != 0) ? FEATURE_SPECTATOR_ON : toBool(val);
+        FEATURE_SUPER_GLIDE_ON = (key.compare("FEATURE_SUPER_GLIDE_ON") != 0) ? FEATURE_SUPER_GLIDE_ON : toBool(val);
+        FEATURE_SKINCHANGER_ON = (key.compare("FEATURE_SKINCHANGER_ON") != 0) ? FEATURE_SKINCHANGER_ON : toBool(val);
+        FEATURE_QUICKTURN_ON = (key.compare("FEATURE_QUICKTURN_ON") != 0) ? FEATURE_QUICKTURN_ON : toBool(val);    
+        FEATURE_QUICKTURN_BUTTON = (key.compare("FEATURE_QUICKTURN_BUTTON") != 0) ? FEATURE_QUICKTURN_BUTTON : trimConstructive(val);
+        FEATURE_PRINT_LEVELS_ON = (key.compare("FEATURE_PRINT_LEVELS_ON") != 0) ? FEATURE_PRINT_LEVELS_ON : toBool(val); 
+        FEATURE_PRINT_LEVELS_BUTTON = (key.compare("FEATURE_PRINT_LEVELS_BUTTON") != 0) ? FEATURE_PRINT_LEVELS_BUTTON : trimConstructive(val);
+        FEATURE_MAP_RADAR_ON = (key.compare("FEATURE_MAP_RADAR_ON") != 0) ? FEATURE_MAP_RADAR_ON : toBool(val); 
+        FEATURE_MAP_RADAR_BUTTON = (key.compare("FEATURE_MAP_RADAR_BUTTON") != 0) ? FEATURE_MAP_RADAR_BUTTON : trimConstructive(val);
     }
 
     void print() {
-        printf("\n==================== GRINDER SETTINGS LOADED ========================\n");
+        printf("\n=============== GRINDER SETTINGS LOADED (1/15/2024) ==================\n");
         
         //screen resolution
         printf("SCREEN_WIDTH\t\t\t\t\t\t%.d\n", SCREEN_WIDTH);
         printf("SCREEN_HEIGHT\t\t\t\t\t\t%.d\n", SCREEN_HEIGHT);
         printf("SCREEN_LEFT_WIDTH\t\t\t\t\t%.d\n", SCREEN_LEFT_WIDTH);
-	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+	    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 	
         //features
         printf("FEATURE_AIMBOT_ON\t\t\t\t\t%s\n", FEATURE_AIMBOT_ON ? "YES" : "NO");
@@ -139,6 +118,15 @@ struct ConfigLoader {
         printf("FEATURE_TRIGGERBOT_ON\t\t\t\t\t%s\n", FEATURE_TRIGGERBOT_ON ? "YES" : "NO");
         printf("FEATURE_NORECOIL_ON\t\t\t\t\t%s\n", FEATURE_NORECOIL_ON ? "YES" : "NO");
         printf("FEATURE_RADAR_ON\t\t\t\t\t%s\n", FEATURE_RADAR_ON ? "YES" : "NO");
+        printf("FEATURE_SPECTATOR_ON\t\t\t\t\t%s\n", FEATURE_SPECTATOR_ON ? "YES" : "NO");
+        printf("FEATURE_SUPER_GLIDE_ON\t\t\t\t\t%s\n", FEATURE_SUPER_GLIDE_ON ? "YES" : "NO");
+        printf("FEATURE_SKINCHANGER_ON\t\t\t\t\t%s\n", FEATURE_SKINCHANGER_ON ? "YES" : "NO");
+        printf("FEATURE_QUICKTURN_ON\t\t\t\t\t%s\n", FEATURE_QUICKTURN_ON ? "YES" : "NO");
+        printf("FEATURE_QUICKTURN_BUTTON\t\t\t\t%s\n", FEATURE_QUICKTURN_BUTTON.c_str());
+        printf("FEATURE_PRINT_LEVELS_ON\t\t\t\t\t%s\n", FEATURE_PRINT_LEVELS_ON ? "YES" : "NO");
+        printf("FEATURE_PRINT_LEVELS_BUTTON\t\t\t\t%s\n", FEATURE_PRINT_LEVELS_BUTTON.c_str());
+        printf("FEATURE_MAP_RADAR_ON\t\t\t\t\t%s\n", FEATURE_MAP_RADAR_ON ? "YES" : "NO");
+        printf("FEATURE_MAP_RADAR_BUTTON\t\t\t\t%s\n", FEATURE_MAP_RADAR_BUTTON.c_str());
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
         //norecoil
@@ -153,36 +141,17 @@ struct ConfigLoader {
         printf("AIMBOT_SMOOTH\t\t\t\t\t\t%.d\n", AIMBOT_SMOOTH);
         printf("AIMBOT_SMOOTH_EXTRA_BY_DISTANCE\t\t\t\t%.d\n", AIMBOT_SMOOTH_EXTRA_BY_DISTANCE);
         printf("AIMBOT_FOV\t\t\t\t\t\t%.4f\n", AIMBOT_FOV);
-        printf("AIMBOT_DEADZONE\t\t\t\t\t\t%.4f\n", AIMBOT_DEADZONE);
-        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-
-        //sense        
-        printf("SENSE_ENEMY_COLOR_SHIELD_BASED\t\t\t\t%s\n", SENSE_ENEMY_COLOR_SHIELD_BASED ? "YES" : "NO");
-        printf("SENSE_ENEMY_VISIBLE_COLOR_RED\t\t\t\t%.0f\n", SENSE_ENEMY_VISIBLE_COLOR_RED);
-        printf("SENSE_ENEMY_VISIBLE_COLOR_GREEN\t\t\t\t%.0f\n", SENSE_ENEMY_VISIBLE_COLOR_GREEN);
-        printf("SENSE_ENEMY_VISIBLE_COLOR_BLUE\t\t\t\t%.0f\n", SENSE_ENEMY_VISIBLE_COLOR_BLUE);
-        printf("SENSE_ENEMY_VISIBLE_BODY_STYLE\t\t\t\t%.d\n", SENSE_ENEMY_VISIBLE_BODY_STYLE);
-        printf("SENSE_ENEMY_VISIBLE_BORDER_STYLE\t\t\t%.d\n", SENSE_ENEMY_VISIBLE_BORDER_STYLE);
-        printf("SENSE_ENEMY_VISIBLE_BORDER_WIDTH\t\t\t%.d\n", SENSE_ENEMY_VISIBLE_BORDER_WIDTH);
-        printf("SENSE_ENEMY_INVISIBLE_COLOR_RED\t\t\t\t%.0f\n", SENSE_ENEMY_INVISIBLE_COLOR_RED);
-        printf("SENSE_ENEMY_INVISIBLE_COLOR_GREEN\t\t\t%.0f\n", SENSE_ENEMY_INVISIBLE_COLOR_GREEN);
-        printf("SENSE_ENEMY_INVISIBLE_COLOR_BLUE\t\t\t%.0f\n", SENSE_ENEMY_INVISIBLE_COLOR_BLUE);
-        printf("SENSE_ENEMY_INVISIBLE_BODY_STYLE\t\t\t%.d\n", SENSE_ENEMY_INVISIBLE_BODY_STYLE);
-        printf("SENSE_ENEMY_INVISIBLE_BORDER_STYLE\t\t\t%.d\n", SENSE_ENEMY_INVISIBLE_BORDER_STYLE);
-        printf("SENSE_ENEMY_INVISIBLE_BORDER_WIDTH\t\t\t%.d\n", SENSE_ENEMY_INVISIBLE_BORDER_WIDTH);
-        printf("SENSE_ENEMY_LOCKEDON_COLOR_RED\t\t\t\t%.0f\n", SENSE_ENEMY_LOCKEDON_COLOR_RED);
-        printf("SENSE_ENEMY_LOCKEDON_COLOR_GREEN\t\t\t%.0f\n", SENSE_ENEMY_LOCKEDON_COLOR_GREEN);
-        printf("SENSE_ENEMY_LOCKEDON_COLOR_BLUE\t\t\t\t%.0f\n", SENSE_ENEMY_LOCKEDON_COLOR_BLUE);
-        printf("SENSE_ENEMY_LOCKEDON_BODY_STYLE\t\t\t\t%.d\n", SENSE_ENEMY_LOCKEDON_BODY_STYLE);
-        printf("SENSE_ENEMY_LOCKEDON_BORDER_STYLE\t\t\t%.d\n", SENSE_ENEMY_LOCKEDON_BORDER_STYLE);
-        printf("SENSE_ENEMY_LOCKEDON_BORDER_WIDTH\t\t\t%.d\n", SENSE_ENEMY_LOCKEDON_BORDER_WIDTH);
-
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         
         printf("RADAR_POSITION\t\t\t\t\t\t%d\n", RADAR_POSITION);
         printf("RADAR_SIZE\t\t\t\t\t\t%.d\n", RADAR_SIZE);
         printf("RADAR_ZOOM\t\t\t\t\t\t%.d\n", RADAR_ZOOM);
         printf("RADAR_ENEMY_SCALE_DIVIDER\t\t\t\t%.d\n", RADAR_ENEMY_SCALE_DIVIDER);
+
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+
+        //gameMode
+        printf("IS_GAME_BR\t\t\t\t\t\t%s\n", IS_GAME_BR ? "YES" : "NO");
 
         printf("=====================================================================\n\n");
     }

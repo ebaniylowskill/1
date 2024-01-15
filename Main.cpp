@@ -1,4 +1,4 @@
-#include "includes.cpp"
+#include "includes.hpp"
 
 int main() {
     //load config
@@ -26,29 +26,32 @@ int main() {
 
     //create features     
     NoRecoil* noRecoil = new NoRecoil(cl, display, level, localPlayer);
-    AimBot* aimBot = new AimBot(cl, display, level, localPlayer, players);
+    //Aim* Aimbot = new Aim(cl, display, localPlayer, players);
+    AimBot* Aimbot = new AimBot(cl, display, level, localPlayer, players);
     TriggerBot* triggerBot = new TriggerBot(cl, display, level, localPlayer, players);
     Sense* sense = new Sense(cl, display, level, localPlayer, players);
     Radar* radar = new Radar(cl, display, level, localPlayer, players);
+    Random* randyRandom = new Random(cl, display, level, localPlayer, players);
 
     //begin main loop
-    secCounter = -10;
-    for (int counter = 0; ; counter = ((counter >= 1000) ? 0 : counter + 1)) {
+    int counter = 0;
+
+    while(1) {
         try {
             //record time so we know how long a single loop iteration takes
             long long startTime = util::currentEpochMillis();
 
             // will attempt to reload config if there have been any updates to it
             if (counter % 20 == 0) {
-            prevRadarSize = cl->RADAR_SIZE;
-            prevRadarPos = cl->RADAR_POSITION;
-            cl->reloadFile();
-            if (prevRadarSize != cl->RADAR_SIZE || prevRadarPos != cl->RADAR_POSITION) {
-                //printf("Resizing and Moving Window to %d...\n", cl->RADAR_POSITION);
-                radar->resizeWindow();
-                radar->moveWindow();
-            } 
-	    }
+                prevRadarSize = cl->RADAR_SIZE;
+                prevRadarPos = cl->RADAR_POSITION;
+                cl->reloadFile();
+                if (prevRadarSize != cl->RADAR_SIZE || prevRadarPos != cl->RADAR_POSITION) {
+                    //printf("Resizing and Moving Window to %d...\n", cl->RADAR_POSITION);
+                    radar->resizeWindow();
+                    radar->moveWindow();
+                } 
+            }
 
             //read level and make sure it is playable
             level->readFromMemory();
@@ -56,54 +59,46 @@ int main() {
                 //printf("[ INFO  ] Not in game! Sleeping 10 seconds...\n");
                 secCounter = secCounter + 10;
                 std::cout << "\r" 
-			<<  "[ INFO  ] Not in game! Sleeping ("
-			<< std::setw(3)
-			<< secCounter
-			<< " seconds)"
-			<< std::flush;
-                std::this_thread::sleep_for(std::chrono::milliseconds(10000));
-                continue;
+                    <<  "[ INFO  ] Player in Lobby - Sleeping 10 seconds                                 "
+                    << std::flush;
+                        std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+                        continue;
             }
 
             //read localPlayer and make sure he is valid
             localPlayer->readFromMemory();
-            //if (!localPlayer->isValid()) throw std::invalid_argument("LocalPlayer invalid!");
-            if (!localPlayer->isValid()) {
-            	//printf("[ INFO  ] Local Player Invalid! Sleeping 10 seconds...\n");
-            	secCounter = secCounter + 10;
-            	std::cout << "\r" 
-			<<  "[ INFO  ] Local Player Invalid! Sleeping ("
-			<< std::setw(3)
-			<< secCounter
-			<< " seconds)"
-			<< std::flush;
-                std::this_thread::sleep_for(std::chrono::milliseconds(10000));
-                continue;
-            } 
+            if (!localPlayer->isValid()) throw std::invalid_argument("Select Legend");
 
             //read players
             players->clear();
             if (level->trainingArea)
                 for (int i = 0; i < dummyPlayers->size(); i++) {
                     Player* p = dummyPlayers->at(i);
-                    p->readFromMemory();
+                    p->readFromMemory(cl);
                     if (p->isValid()) players->push_back(p);
                 }
             else
                 for (int i = 0; i < humanPlayers->size(); i++) {
                     Player* p = humanPlayers->at(i);
-                    p->readFromMemory();
+                    p->readFromMemory(cl);
                     if (p->isValid()) players->push_back(p);
+                    p->MapRadar(cl, display);
                 }
 
-            //run features       
+            //run features
             noRecoil->controlWeapon(counter);
-            triggerBot->shootAtEnemy();
-            aimBot->aimAssist(counter);
-            sense->modifyHighlights();
-            sense->glowPlayers();
+            triggerBot->shootAtEnemy(counter);
+            //Aimbot->update(counter);
+            Aimbot->aimAssist(counter);
+            sense->update(counter);
             radar->processEvents(counter);
             radar->repaint();
+            //Random
+            randyRandom->printLevels();
+            randyRandom->quickTurn();
+            randyRandom->superGlide();
+            randyRandom->spectatorView();
+            randyRandom->SkinChange();
 
             //check how fast we completed all the processing and if we still have time left to sleep
             int processingTime = static_cast<int>(util::currentEpochMillis() - startTime);
@@ -112,30 +107,27 @@ int main() {
             std::this_thread::sleep_for(std::chrono::milliseconds(timeLeftToSleep));
 
             //print loop info every now and then
-            if (counter % 500 == 0)
-//		printf("[ INFO  ] Loop[%04d] OK | ProcTime: %02dms | TimeToSleep: %02dms | MAP: %s |\n", 
-//		counter, processingTime, timeLeftToSleep, level->name.c_str());
-		std::cout << "\r" 
-			<<  "[ INFO  ] Loop[" 
-			<< std::setw(4)
-			<< counter
-			<< "] OK | ProcTime: "
-			<< std::setw(2)
-			<< processingTime
-			<< "ms | TimeToSleep: "
-			<< std::setw(2)
-			<< timeLeftToSleep
-			<< "ms | MAP: "
-			<< level->name.c_str()
-			<< "|"
-			<< std::flush;
+            if (counter % 500 == 0) {
+                std::cout << "\r" 
+                    <<  "[ INFO  ] [" 
+                    << std::setw(4)
+                    << counter
+                    << "] - Time: "
+                    << std::setw(2)
+                    << processingTime
+                    << "ms |                                             "
+                    << std::flush;
+            }
+            //update counter
+            counter = (counter < 1000) ? ++counter : counter = 0;
         }
         catch (std::invalid_argument& e) {
-            printf("[ ERROR ] %s Trying again in 10sec! \n", e.what());
+            printf("[ ERROR ] %s - Sleeping 5 sec \n", e.what());
+            std::this_thread::sleep_for(std::chrono::seconds(5));
         }
         catch (...) {
-            printf("[UNKNOWN] Trying again in 10sec! \n");
-            std::this_thread::sleep_for(std::chrono::seconds(10));
+            printf("[ ERROR ] Unknown Error - Sleeping 1 sec \n");
+            std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }
 

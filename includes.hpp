@@ -12,7 +12,6 @@
 #include <unordered_map>
 #include <chrono>
 #include <thread>
-#include <unordered_map>
 #include <random>
 #include <fstream>
 #include <sys/stat.h>
@@ -27,24 +26,31 @@
 #include <X11/extensions/Xrender.h>
 #include <X11/extensions/Xcomposite.h>
 #include <X11/extensions/XInput2.h>
+#include <limits>
+#include <cstdint>
+#include <map>
+#include <array>
 
-//mine
-#include "ConfigLoader.cpp"
-// #include "XD.cpp"
-#include "Offsets.cpp"
-#include "WeaponId.cpp"
-#include "Util.cpp"
-#include "FloatVector2D.cpp"
-#include "FloatVector3D.cpp"
-#include "GlowMode.cpp"
-#include "Color.cpp"
-#include "Memory.cpp" 
-#include "XDisplay.cpp"
-#include "Level.cpp"
-#include "LocalPlayer.cpp"
-#include "Player.cpp"
-#include "Sense.cpp"
-#include "TriggerBot.cpp"
-#include "AimBot.cpp"
-#include "NoRecoil.cpp"
-#include "Radar.cpp"
+
+#include "FloatVector2D.hpp"
+#include "FloatVector3D.hpp"
+#include "Memory.hpp" 
+#include "Offsets.hpp"
+#include "QAngle.hpp"
+#include "Resolver.hpp"
+
+#include "XDisplay.hpp"
+#include "ConfigLoader.hpp"
+#include "WeaponId.hpp"
+
+#include "Structs.hpp"
+
+#include "LocalPlayer.hpp"
+#include "Player.hpp"
+//#include "Aim.hpp"
+#include "AimBot.hpp"
+#include "NoRecoil.hpp"
+#include "Random.hpp"
+#include "Sense.hpp"
+#include "TriggerBot.hpp"
+#include "Radar.hpp"

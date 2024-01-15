@@ -53,10 +53,13 @@ constexpr long OFFSET_TIME_BASE = 0x2048;                     //m_currentFramePl
 constexpr long OFF_SKIN = 0x0d18;                             // m_nSkin
 constexpr long OFF_WEAPON_DISCARDED = 0x15ac;                 //[RecvTable.DT_WeaponX]->m_discarded
 
+constexpr long OFF_PROJECTILESCALE = 0x04ec;                  //projectile_gravity_scale + BASE o
+constexpr long OFF_PROJECTILESPEED = 0x04e4;                  //projectile_launch_speed + BASE o
+
 // Glow
-constexpr long HIGHLIGHT_TYPE_SIZE = 0x28;
-constexpr long OFF_GLOW_ENABLE = 0x28C;                       //[DT_HighlightSettings].?
-constexpr long OFF_GLOW_THROUGH_WALL = 0x26C;                 //[DT_HighlightSettings].?
+constexpr long HIGHLIGHT_TYPE_SIZE = 0x34;
+constexpr long OFF_GLOW_ENABLE = 0x26c;                       //[DT_HighlightSettings].?
+constexpr long OFF_GLOW_THROUGH_WALL = 0x28c;                 //[DT_HighlightSettings].?
 constexpr long OFF_GLOW_FIX = 0x268;
 constexpr long OFF_GLOW_HIGHLIGHT_ID = 0x28C;                 //[DT_HighlightSettings].m_highlightServerActiveStates
 constexpr long OFF_GLOW_HIGHLIGHTS = 0xB7A6050;

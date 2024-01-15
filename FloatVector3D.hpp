@@ -22,6 +22,10 @@ struct FloatVector3D {
         return std::sqrt(x * x + y * y + z * z);
     }
 
+    float magnitude2D() const {
+        return std::sqrt(x * x + y * y);
+    }
+
     float distance(const FloatVector3D& other) const {
         FloatVector3D diff = subtract(other);
         return diff.magnitude();
@@ -29,6 +33,13 @@ struct FloatVector3D {
 
     bool isZeroVector() {
         return x == 0 && y == 0 && z == 0;
+    }
+
+    bool IsValid() {
+        if(std::isnan(x) || std::isinf(x) || std::isnan(y) || std::isinf(y) || std::isnan(z) || std::isinf(z)) {
+            return false;
+        }
+        return true;
     }
 
     FloatVector3D normalize() const {
@@ -53,6 +64,17 @@ struct FloatVector3D {
 
     FloatVector2D to2D() const {
         return FloatVector2D(x, y);
+    }
+
+    float distance2D(const FloatVector3D& other) const {
+        return (other.subtract(*this)).magnitude2D();
+    };
+
+    FloatVector3D& operator+=(const FloatVector3D& other) {
+        x += other.x;
+        y += other.y;
+        z += other.z;
+        return *this;
     }
 
     bool operator==(const FloatVector3D& other) const {

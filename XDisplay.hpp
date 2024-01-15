@@ -45,6 +45,4 @@ struct XDisplay {
             return keyName.substr(3);
         return keyName;
     }
-
-
 };
