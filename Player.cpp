@@ -138,7 +138,7 @@ struct Player {
         
         if (currentShields <= 0) id = 66;//no shields (20)
         else if (currentShields <= 50) id = 32;//white shields 
-        else if (currentShields <= 70) id = 31;//blue shields
+        else if (currentShields <= 75) id = 31;//blue shields
         else if (currentShields <= 100) id = 30;//purple shields / gold
         else  id = 7;//red shields*/
 
