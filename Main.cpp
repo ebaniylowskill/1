@@ -122,8 +122,13 @@ int main() {
             counter = (counter < 1000) ? ++counter : counter = 0;
         }
         catch (std::invalid_argument& e) {
-            printf("[ ERROR ] %s - Sleeping 5 sec \n", e.what());
-            std::this_thread::sleep_for(std::chrono::seconds(5));
+            if (!strcmp(e.what(),"Select Legend")) {
+                printf("\n[ INFO  ] %s - Sleeping 35 sec", e.what());
+                std::this_thread::sleep_for(std::chrono::seconds(35));
+            } else {
+                printf("\n[ ERROR ] %s - Sleeping 10 sec", e.what());
+                std::this_thread::sleep_for(std::chrono::seconds(10));
+            }
         }
         catch (...) {
             printf("[ ERROR ] Unknown Error - Sleeping 1 sec \n");
