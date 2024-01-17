@@ -114,7 +114,7 @@ struct Player {
 
         glowEnable = mem::Read<int>(base + OFF_GLOW_ENABLE, "Player glowEnable");
         glowThroughWall = mem::Read<int>(base + OFF_GLOW_THROUGH_WALL, "Playeasdasdr glowThroughWall");
-        highlightId = mem::Read<int>(base + OFF_GLOW_HIGHLIGHT_ID + 1, "Player highlightId");
+        highlightId = mem::Read<int>(base + OFF_GLOW_HIGHLIGHT_ID + 0, "Player highlightId");
 
         lastTimeAimedAt = mem::Read<int>(base + OFF_LAST_AIMEDAT_TIME, "Player lastTimeAimedAt");
         aimedAt = lastTimeAimedAtPrev < lastTimeAimedAt;
