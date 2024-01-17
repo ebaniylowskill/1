@@ -63,6 +63,9 @@ struct ConfigLoader {
 	    SCREEN_WIDTH = (key.compare("SCREEN_WIDTH") != 0) ? SCREEN_WIDTH : stoi(val);
         SCREEN_HEIGHT = (key.compare("SCREEN_HEIGHT") != 0) ? SCREEN_HEIGHT : stoi(val);
 	    SCREEN_LEFT_WIDTH = (key.compare("SCREEN_LEFT_WIDTH") != 0) ? SCREEN_LEFT_WIDTH : stoi(val);
+
+        //gameMode
+        IS_GAME_BR = (key.compare("IS_GAME_BR") != 0) ? IS_GAME_BR : toBool(val);
         
         //features
         FEATURE_AIMBOT_ON = (key.compare("FEATURE_AIMBOT_ON") != 0) ? FEATURE_AIMBOT_ON : toBool(val);
