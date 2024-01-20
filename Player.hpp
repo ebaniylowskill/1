@@ -52,11 +52,12 @@ struct Player {
     }
 
     std::string getPlayerName(){
-        nameIndex = mem::Read<uintptr_t>(base + OFF_NAMEINDEX);       //player + 0x38
-        nameOffset = mem::Read<uintptr_t>(OFF_REGION + OFF_NAMELIST + ((nameIndex - 1) << 4 ));       //Region + NameList
+        nameIndex = mem::Read<uintptr_t>(base + OFF_NAMEINDEX);                                         //player + 0x38
+        nameOffset = mem::Read<uintptr_t>(OFF_REGION + OFF_NAMELIST + ((nameIndex - 1) << 4 ));         //Region + NameList
         std::string playerName = mem::ReadString(nameOffset, 64);
         return playerName;
     }
+    
     std::string getPlayerModelName(){
         uintptr_t modelOffset = mem::Read<uintptr_t>(base + OFF_MODELNAME);
         std::string modelName = mem::ReadString(modelOffset, 1024);
@@ -107,13 +108,13 @@ struct Player {
 
         view_yaw = mem::Read<float>(base + OFF_YAW);
         localOrigin = mem::Read<FloatVector3D>(base + OFF_LOCAL_ORIGIN, "Player localOrigin");
-        AbsoluteVelocity = mem::Read<FloatVector3D>(base + OFF_ABSVELOCITY);
+        AbsoluteVelocity = mem::Read<FloatVector3D>(base + OFF_ABSVELOCITY, "Player AbsoluteVelocity");
         FloatVector3D localOrigin_diff = localOrigin.subtract(localOrigin_prev).normalize().multiply(20);
         localOrigin_predicted = localOrigin.add(localOrigin_diff);
         localOrigin_prev = FloatVector3D(localOrigin.x, localOrigin.y, localOrigin.z);
 
         glowEnable = mem::Read<int>(base + OFF_GLOW_ENABLE, "Player glowEnable");
-        glowThroughWall = mem::Read<int>(base + OFF_GLOW_THROUGH_WALL, "Playeasdasdr glowThroughWall");
+        glowThroughWall = mem::Read<int>(base + OFF_GLOW_THROUGH_WALL, "Player glowThroughWall");
         highlightId = mem::Read<int>(base + OFF_GLOW_HIGHLIGHT_ID + 0, "Player highlightId");
 
         lastTimeAimedAt = mem::Read<int>(base + OFF_LAST_AIMEDAT_TIME, "Player lastTimeAimedAt");
@@ -143,9 +144,7 @@ struct Player {
     }
 
     bool isValid() {
-        return base != 0
-            && currentHealth > 0
-            && (isPlayer() || isDummie());
+        return base != 0 && (isPlayer() || isDummie());
     }
 
     void MapRadar(ConfigLoader* cl, XDisplay* m_disp) {
@@ -284,6 +283,37 @@ struct Player {
         }
     }
 
+    float calcDesiredPitch() {
+        if (local) return 0;
+        const FloatVector3D shift = FloatVector3D(100000, 100000, 100000);
+        const FloatVector3D originA = myLocalPlayer->localOrigin.add(shift);
+        const float extraZ = (ducking != -1) ? 10 : 0;
+        const FloatVector3D originB = localOrigin_predicted.add(shift).subtract(FloatVector3D(0, 0, extraZ));
+        const float deltaZ = originB.z - originA.z;
+        const float pitchInRadians = std::atan2(-deltaZ, distance2DToLocalPlayer);
+        const float degrees = pitchInRadians * (180.0f / M_PI);
+        return degrees;
+    }
+
+    float calcDesiredYaw() {
+        if (local) return 0;
+        const FloatVector2D shift = FloatVector2D(100000, 100000);
+        const FloatVector2D originA = myLocalPlayer->localOrigin.to2D().add(shift);
+        const FloatVector2D originB = localOrigin_predicted.to2D().add(shift);
+        const FloatVector2D diff = originB.subtract(originA);
+        const double yawInRadians = std::atan2(diff.y, diff.x);
+        const float degrees = yawInRadians * (180.0f / M_PI);
+        return degrees;
+    }
+
+    FloatVector2D calcDesiredAngles() {
+        return FloatVector2D(calcDesiredPitch(), calcDesiredYaw());
+    }
+
+    FloatVector2D calcDesiredAnglesIncrement() {
+        return FloatVector2D(calcPitchIncrement(), calcYawIncrement());
+    }
+
     int GetBoneFromHitbox(HitboxType HitBox) const {
         long ModelPointer = mem::Read<long>(base + OFF_STUDIOHDR);
         if (!mem::IsValidPointer(ModelPointer))
@@ -326,37 +356,6 @@ struct Player {
 
         BonePosition += localOrigin;
         return BonePosition;
-    }
-
-    float calcDesiredPitch() {
-        if (local) return 0;
-        const FloatVector3D shift = FloatVector3D(100000, 100000, 100000);
-        const FloatVector3D originA = myLocalPlayer->localOrigin.add(shift);
-        const float extraZ = (ducking != -1) ? 10 : 0;
-        const FloatVector3D originB = localOrigin_predicted.add(shift).subtract(FloatVector3D(0, 0, extraZ));
-        const float deltaZ = originB.z - originA.z;
-        const float pitchInRadians = std::atan2(-deltaZ, distance2DToLocalPlayer);
-        const float degrees = pitchInRadians * (180.0f / M_PI);
-        return degrees;
-    }
-
-    float calcDesiredYaw() {
-        if (local) return 0;
-        const FloatVector2D shift = FloatVector2D(100000, 100000);
-        const FloatVector2D originA = myLocalPlayer->localOrigin.to2D().add(shift);
-        const FloatVector2D originB = localOrigin_predicted.to2D().add(shift);
-        const FloatVector2D diff = originB.subtract(originA);
-        const double yawInRadians = std::atan2(diff.y, diff.x);
-        const float degrees = yawInRadians * (180.0f / M_PI);
-        return degrees;
-    }
-
-    FloatVector2D calcDesiredAngles() {
-        return FloatVector2D(calcDesiredPitch(), calcDesiredYaw());
-    }
-
-    FloatVector2D calcDesiredAnglesIncrement() {
-        return FloatVector2D(calcPitchIncrement(), calcYawIncrement());
     }
 
     float calcPitchIncrement() {

@@ -125,7 +125,7 @@ public:
                         std::string modelName = p->getPlayerModelName();
                         
                         if(p->friendly){
-                            printf("\033[91m[%i]=[%s]-[%i]-[%s]\033[0m\n",
+                            printf("\033[92m[%i]=[%s]-[%i]-[%s]\033[0m\n",
                             (i+1), namePlayer.c_str(), playerLvl, modelName.c_str());  
                         }else{
                             printf("[%i]=[%s]-[%i]-[%s]\n",
@@ -148,13 +148,11 @@ public:
             for (int i = 0; i < m_players->size(); i++)
             { 
                 Player *p = m_players->at(i);          
-                      
                 float targetyaw = p->view_yaw; // get Yaw player
                 float localyaw= m_localPlayer->local_yaw; // get Yaw LocalPlayer
-                //printf("LocalViewYaw: %f == PlayerViewYaw: %f \n", localyaw, targetyaw);
+
                 if (targetyaw == localyaw && p->currentHealth == 0){
                     spectatorcount++;
-                    
                     std::string namePlayer = p->getPlayerName();    
                     spectatorlist.push_back(namePlayer);
                 }            
@@ -163,11 +161,17 @@ public:
            
             if (spectatorcount > 0){
                 {   
-                    printf("\n-[%d]-- SPECTATORS -- \n", spectatorcount);
-                    for (int i = 0; i < spectatorlist_size; i++)   //show list of spectators by name
-                    {   
-                        printf("---[%s]---\n", spectatorlist.at(i).c_str());
-                    }
+                    std::string spectatorsname = "";
+                    for (int i = 0; i < spectatorlist_size; i++)   
+                        spectatorsname = spectatorsname  + spectatorlist.at(i).c_str() + " - ";
+
+                    std::string buffer;
+                    buffer = util::getTime();
+                    std::cout << "\r" << "["
+                        << buffer << "] \033[31;1;4m"
+                        << spectatorcount << " SPECTATOR(S)\033[0m: " 
+                        << spectatorsname << "                                                    "
+                        << std::flush;
                 }
             }              
         }      
@@ -186,42 +190,42 @@ public:
         std::map<int, std::vector<int>> weaponSkinMap;
 
         //Light ammo weapons
-        weaponSkinMap[104] = { 6 };   //WEAPON_P2020 
-        weaponSkinMap[80] = { 6 };   //WEAPON_RE45 
-        weaponSkinMap[79] = { 11 };   //WEAPON_ALTERNATOR 
-        weaponSkinMap[103] = { 2 };   //WEAPON_R99  
-        weaponSkinMap[0] = { 10 };     //WEAPON_R301   
-        weaponSkinMap[105] = { 2 };    //WEAPON_SPITFIRE 
-        weaponSkinMap[88] = { 5 };    //WEAPON_G7 
+        weaponSkinMap[WEAPON_P2020] = { 6 };
+        weaponSkinMap[WEAPON_RE45] = { 6 };
+        weaponSkinMap[WEAPON_ALTERNATOR] = { 11 };
+        weaponSkinMap[WEAPON_R99] = { 2 }; 
+        weaponSkinMap[WEAPON_R301] = { 10 };    
+        weaponSkinMap[WEAPON_SPITFIRE] = { 2 }; 
+        weaponSkinMap[WEAPON_G7] = { 5 };
         //Heavy ammo weapons
-        weaponSkinMap[111] = { 10};   // Car-SMG 
-        weaponSkinMap[20] = { 6 };    // Rampage 
-        weaponSkinMap[110] = { 9 };      //3030 
-        weaponSkinMap[89] = {10 };   //WEAPON_HEMLOCK  
-        weaponSkinMap[87] = { 8 };    //FlatLine  
+        weaponSkinMap[WEAPON_CAR] = { 10}; 
+        weaponSkinMap[WEAPON_RAMPAGE] = { 6 };  
+        weaponSkinMap[WEAPON_3030] = { 9 };
+        weaponSkinMap[WEAPON_HEMLOCK] = {10 }; 
+        weaponSkinMap[WEAPON_FLATLINE] = { 8 }; 
         //Energy ammo weapons
-        weaponSkinMap[112] = { 8 };    //WEAPON_NEMESIS  
-        weaponSkinMap[109] = { 9 };    //WEAPON_VOLT 
-        weaponSkinMap[106] = { 7 };    //WEAPON_TRIPLE_TAKE 
-        weaponSkinMap[92] = { 3 };    //WEAPON_LSTAR 
-        weaponSkinMap[83] = { 5 };    //WEAPON_DEVOTION 
-        weaponSkinMap[85] = { 8 };    //WEAPON_HAVOC 
+        weaponSkinMap[WEAPON_NEMESIS] = { 8 };  
+        weaponSkinMap[WEAPON_VOLT] = { 9 }; 
+        weaponSkinMap[WEAPON_TRIPLE_TAKE] = { 7 }; 
+        weaponSkinMap[WEAPON_LSTAR] = { 3 }; 
+        weaponSkinMap[WEAPON_DEVOTION] = { 5 }; 
+        weaponSkinMap[WEAPON_HAVOC] = { 8 }; 
         //Sniper ammo weapons
-        weaponSkinMap[1] = { 5 };    //WEAPON_SENTINEL 
-        weaponSkinMap[82] = { 8 };    //WEAPON_CHARGE_RIFLE 
-        weaponSkinMap[84] = { 7 };    //WEAPON_LONGBOW 
+        weaponSkinMap[WEAPON_SENTINEL] = { 5 };
+        weaponSkinMap[WEAPON_CHARGE_RIFLE] = { 8 };
+        weaponSkinMap[WEAPON_LONGBOW] = { 7 };    
         //Shotgun ammo weapons
-        weaponSkinMap[95] = { 5 };    //WEAPON_MOZAMBIQUE 
-        weaponSkinMap[86] = { 8 };    //WEAPON_EVA8 
-        weaponSkinMap[102] = { 7 };    //WEAPON_PEACEKEEPER 
-        weaponSkinMap[94] = { 5 };    //WEAPON_MASTIFF 
+        weaponSkinMap[WEAPON_MOZAMBIQUE] = { 5 }; 
+        weaponSkinMap[WEAPON_EVA8] = { 8 }; 
+        weaponSkinMap[WEAPON_PEACEKEEPER] = { 7 }; 
+        weaponSkinMap[WEAPON_MASTIFF] = { 5 }; 
         //Legendary ammo weapons
-        weaponSkinMap[108] = { 5 };    //WEAPON_WINGMAN 
-        weaponSkinMap[101] = { 7 };    //WEAPON_PROWLER
-        weaponSkinMap[2] = { 3 };    //WEAPON_BOCEK
-        weaponSkinMap[91] = { 6 };    //WEAPON_KRABER
-        weaponSkinMap[158] = { 3 };    //WEAPON_THROWING_KNIFE
-        weaponSkinMap[212] = { 2 };    //WEAPON_THERMITE_GRENADE 
+        weaponSkinMap[WEAPON_WINGMAN] = { 5 }; 
+        weaponSkinMap[WEAPON_PROWLER] = { 7 };
+        weaponSkinMap[WEAPON_BOCEK] = { 3 };
+        weaponSkinMap[WEAPON_KRABER] = { 6 };
+        weaponSkinMap[WEAPON_THROWING_KNIFE] = { 3 };
+        weaponSkinMap[WEAPON_THERMITE_GRENADE] = { 2 }; 
 
         if (m_configLoader->FEATURE_SKINCHANGER_ON){
             int waponIndex = mem::Read<int>(wep_entity + OFF_WEAPON_INDEX);

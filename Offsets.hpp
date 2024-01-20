@@ -1,10 +1,10 @@
 #pragma once
-// GameVersion=v3.0.53.30
-// Updated 1/14/2024
+// GameVersion=v3.0.54.31
+// Updated 1/19/2024
 
 // Core
 constexpr long OFF_REGION = 0x140000000;                      //[Static]->Region
-constexpr long OFF_LEVEL = 0x16d6ac0;                         //[Miscellaneous]->LevelName
+constexpr long OFF_LEVEL = 0x16d6ab0;                         //[Miscellaneous]->LevelName
 constexpr long OFF_LOCAL_PLAYER = 0x21615d8;                  //[Miscellaneous]->LocalPlayer
 constexpr long OFF_ENTITY_LIST = 0x1db2ed8;                   //[Miscellaneous]->cl_entitylist
     
@@ -37,10 +37,10 @@ constexpr long OFF_VIEW_ANGLES = 0x24f4 - 0x14;               //[DataMap.C_Playe
 constexpr long OFF_PUNCH_ANGLES = 0x23f8;                     //[?]->m_currentFrameLocalPlayer.m_vecPunchWeapon_Angle
 constexpr long OFFSET_BREATH_ANGLES = (OFF_VIEW_ANGLES - 0x10);
 constexpr long OFF_STUDIOHDR = 0xfb0;                         //[Miscellaneous]->CBaseAnimating!m_pStudioHdr
-constexpr long OFF_BONES = 0x0d60 + 0x48;                     //m_nForceBone
+constexpr long OFF_BONES = 0x0d60 + 0x48;                     //m_nForceBone + 0x48
 constexpr long OFF_CAMERAORIGIN = 0x1e90;                     //[Miscellaneous]->CPlayer!camera_origin
 constexpr long OFF_MODELNAME = 0x0030;                        //m_ModelName     
-constexpr long OFF_NAMELIST = 0xc451fb0l;                     //[Miscellaneous]->NameList
+constexpr long OFF_NAMELIST = 0xc5ea050;                      //[Miscellaneous]->NameList
 constexpr long OFF_YAW = 0x21fc - 0x8;                        //m_currentFramePlayer.m_ammoPoolCount - 0x8
 constexpr long OFF_NAMEINDEX = 0x38;                          //nameIndex
 
@@ -51,7 +51,7 @@ constexpr long OFFSET_AMMO = 0x1514;                          // m_ammoInClip
 constexpr long OFF_GRENADE_HANDLE = 0x1904;                   //[RecvTable.DT_Player]->m_latestNonOffhandWeapons
 constexpr long OFFSET_TIME_BASE = 0x2048;                     //m_currentFramePlayer.timeBase
 constexpr long OFF_SKIN = 0x0d18;                             // m_nSkin
-constexpr long OFF_WEAPON_DISCARDED = 0x15ac;                 //[RecvTable.DT_WeaponX]->m_discarded
+constexpr long OFF_WEAPON_DISCARDED = 0x1559;                 //[RecvTable.DT_WeaponX]->m_discarded
 
 constexpr long OFF_PROJECTILESCALE = 0x04ec;                  //projectile_gravity_scale + BASE o
 constexpr long OFF_PROJECTILESPEED = 0x04e4;                  //projectile_launch_speed + BASE o
@@ -62,4 +62,4 @@ constexpr long OFF_GLOW_ENABLE = 0x26c;                       //[DT_HighlightSet
 constexpr long OFF_GLOW_THROUGH_WALL = 0x28c;                 //[DT_HighlightSettings].?
 constexpr long OFF_GLOW_FIX = 0x268;
 constexpr long OFF_GLOW_HIGHLIGHT_ID = 0x28C;                 //[DT_HighlightSettings].m_highlightServerActiveStates
-constexpr long OFF_GLOW_HIGHLIGHTS = 0xB7A6050;
+constexpr long OFF_GLOW_HIGHLIGHTS = 0xB93E050;

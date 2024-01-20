@@ -1,6 +1,6 @@
 #pragma once
 
-constexpr int WEAPON_HANDS = 0;
+//constexpr int WEAPON_HANDS = 0;
 //Sniper ammo weapons
 constexpr int WEAPON_SENTINEL = 1;
 constexpr int WEAPON_CHARGE_RIFLE = 83;
@@ -43,7 +43,7 @@ constexpr int WEAPON_THERMITE_GRENADE = 213;
 
 // Define a reverse mapping from integer values to string names
 std::unordered_map<int, std::string> intToStringMap = {
-    {WEAPON_HANDS,"WEAPON_HANDS"},
+//    {WEAPON_HANDS,"WEAPON_HANDS"},
     {WEAPON_SENTINEL,"WEAPON_SENTINEL"},
     {WEAPON_CHARGE_RIFLE,"WEAPON_CHARGE_RIFLE"},
     {WEAPON_LONGBOW ,"WEAPON_LONGBOW"},
@@ -72,8 +72,11 @@ std::unordered_map<int, std::string> intToStringMap = {
     {WEAPON_WINGMAN ,"WEAPON_WINGMAN"},
     {WEAPON_PROWLER ,"WEAPON_PROWLER"},
     {WEAPON_BOCEK ,"WEAPON_BOCEK"},
-    {WEAPON_KRABER ,"WEAPON_KRABER"} ,
-    {WEAPON_THROWING_KNIFE,"WEAPON_THROWING_KNIFE"} };
+    {WEAPON_KRABER ,"WEAPON_KRABER"},
+    {WEAPON_THROWING_KNIFE,"WEAPON_THROWING_KNIFE"},
+    {BUSTER_SWORD_R2R5,"BUSTER_SWORD_R2R5"},
+    {WEAPON_THERMITE_GRENADE,"WEAPON_THERMITE_GRENADE"}
+};
 
 std::string WeaponName(int weaponId) {
     auto it = intToStringMap.find(weaponId);
@@ -81,5 +84,3 @@ std::string WeaponName(int weaponId) {
         return it->second;
     return "UNKNOWN! NEED WEAPONID UPDATE!?";
 }
-
-

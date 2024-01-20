@@ -99,6 +99,15 @@ namespace util {
     void clearScreen() {
         printf("\e[H\e[2J\e[3J");
     }
+
+    std::string getTime() {
+        std::time_t currentTime = std::time(nullptr);
+        std::tm* localTime = std::localtime(&currentTime);
+        char buffer[20];
+        std::strftime(buffer, sizeof(buffer), "%Y/%m/%d %H:%M:%S", localTime);
+
+        return std::string(buffer);
+    }
 };
 
 namespace Conversion {

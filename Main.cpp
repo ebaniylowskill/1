@@ -115,7 +115,7 @@ int main() {
                     << "] - Time: "
                     << std::setw(2)
                     << processingTime
-                    << "ms |                                             "
+                    << "ms                                               "
                     << std::flush;
             }
             //update counter
@@ -123,15 +123,15 @@ int main() {
         }
         catch (std::invalid_argument& e) {
             if (!strcmp(e.what(),"Select Legend")) {
-                printf("\n[ INFO  ] %s - Sleeping 35 sec", e.what());
-                std::this_thread::sleep_for(std::chrono::seconds(35));
+                printf("\n[ INFO  ] %s - Sleeping...", e.what());
+                std::this_thread::sleep_for(std::chrono::seconds(20));
             } else {
-                printf("\n[ ERROR ] %s - Sleeping 10 sec", e.what());
+                printf("\n[ ERROR ] %s - Sleeping...", e.what());
                 std::this_thread::sleep_for(std::chrono::seconds(10));
             }
         }
         catch (...) {
-            printf("[ ERROR ] Unknown Error - Sleeping 1 sec \n");
+            printf("\n[ ERROR ] Unknown Error - Sleeping... \n");
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }
