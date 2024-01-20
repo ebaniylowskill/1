@@ -59,15 +59,15 @@ int main() {
                 //printf("[ INFO  ] Not in game! Sleeping 10 seconds...\n");
                 secCounter = secCounter + 10;
                 std::cout << "\r" 
-                    <<  "[ INFO  ] Player in Lobby - Sleeping 10 seconds                                 "
+                    <<  "[ INFO  ] Player in Lobby - Sleeping...                                "
                     << std::flush;
-                        std::this_thread::sleep_for(std::chrono::milliseconds(10000));
-                        continue;
+                std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+                continue;
             }
 
             //read localPlayer and make sure he is valid
             localPlayer->readFromMemory();
-            if (!localPlayer->isValid()) throw std::invalid_argument("Select Legend");
+            if (!localPlayer->isValid()) throw std::invalid_argument("Selecting Legend");
 
             //read players
             players->clear();
@@ -88,7 +88,6 @@ int main() {
             //run features
             noRecoil->controlWeapon(counter);
             triggerBot->shootAtEnemy(counter);
-            //Aimbot->update(counter);
             Aimbot->aimAssist(counter);
             sense->update(counter);
             radar->processEvents(counter);
@@ -110,12 +109,8 @@ int main() {
             if (counter % 500 == 0) {
                 std::cout << "\r" 
                     <<  "[ INFO  ] [" 
-                    << std::setw(4)
-                    << counter
-                    << "] - Time: "
-                    << std::setw(2)
-                    << processingTime
-                    << "ms                                               "
+                    << std::setw(4) << counter << "] - Time: " 
+                    << std::setw(2) << processingTime << "ms                                               "
                     << std::flush;
             }
             //update counter
@@ -123,15 +118,24 @@ int main() {
         }
         catch (std::invalid_argument& e) {
             if (!strcmp(e.what(),"Select Legend")) {
-                printf("\n[ INFO  ] %s - Sleeping...", e.what());
+                //printf("[ INFO  ] %s - Sleeping...", e.what());
+                std::cout << "\r" 
+                    << "[ INFO  ] " << e.what() << " - Sleeping...                                         "
+                    << std::flush;
                 std::this_thread::sleep_for(std::chrono::seconds(20));
             } else {
-                printf("\n[ ERROR ] %s - Sleeping...", e.what());
+                //printf("[ ERROR ] %s - Sleeping...", e.what());
+                std::cout << "\r" 
+                    << "[ INFO  ] " << e.what() << " - Sleeping...                                          "
+                    << std::flush;
                 std::this_thread::sleep_for(std::chrono::seconds(10));
             }
         }
         catch (...) {
-            printf("\n[ ERROR ] Unknown Error - Sleeping... \n");
+            //printf("\n[ ERROR ] Unknown Error - Sleeping... \n");
+            std::cout << "\r" 
+                    << "[ ERROR ] Unknown Error - Sleeping...                                                "
+                    << std::flush;
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }

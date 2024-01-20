@@ -161,6 +161,7 @@ struct Player {
             {
             mem::Write<int>(pLocal + OFF_TEAM_NUMBER, currentTEAM);
             } 
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
 

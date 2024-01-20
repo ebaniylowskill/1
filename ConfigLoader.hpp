@@ -39,7 +39,7 @@ struct ConfigLoader {
     std::string AIMBOT_ACTIVATED_BY_BUTTON = "XK_Shift_L";
     std::string FEATURE_QUICKTURN_BUTTON = "XK_f";
     std::string FEATURE_PRINT_LEVELS_BUTTON = "XK_p";
-    std::string FEATURE_MAP_RADAR_BUTTON = "XK_m";
+    std::string FEATURE_MAP_RADAR_BUTTON = "XK_o";
     int AIMBOT_SMOOTH = 20;
     float AIMBOT_SPEED = 40;
     int AIMBOT_SMOOTH_EXTRA_BY_DISTANCE = 1000;
