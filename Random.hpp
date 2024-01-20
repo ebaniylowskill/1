@@ -115,7 +115,7 @@ public:
         if(m_configLoader->FEATURE_PRINT_LEVELS_ON){
 
             if(m_display->keyDown(m_configLoader->FEATURE_PRINT_LEVELS_BUTTON)){
-                printf("[N]=[NAME]-[LEVEL]-[LEGEND]\n\n");
+                printf("\n\n[N]=[NAME]-[LEVEL]-[LEGEND]\n\n");
                 for (auto i = 0; i < m_players->size(); i++)
                 {
                     Player *p = m_players->at(i);
@@ -163,6 +163,7 @@ public:
                 {   
                     std::string spectatorsname = "";
                     for (int i = 0; i < spectatorlist_size; i++)   
+                        //spectatorsname = spectatorsname  + spectatorlist.at(i).c_str() + "(" + p->GetPlayerLevel() + ")[" + p->getPlayerModelName() + "] - ";
                         spectatorsname = spectatorsname  + spectatorlist.at(i).c_str() + " - ";
 
                     std::string buffer;
