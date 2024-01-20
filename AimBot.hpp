@@ -57,23 +57,49 @@ struct AimBot {
 
         //only these weapons will use aimbot
         bool weaponCanBeAimbotted = (
-            weaponId == WEAPON_R301 ||
-            weaponId == WEAPON_FLATLINE ||
-            weaponId == WEAPON_HAVOC ||
-            weaponId == WEAPON_SPITFIRE ||
-            weaponId == WEAPON_RAMPAGE ||
-            weaponId == WEAPON_HEMLOCK ||
-            weaponId == WEAPON_VOLT ||
-            weaponId == WEAPON_LSTAR ||
-            weaponId == WEAPON_DEVOTION ||
-            weaponId == WEAPON_PROWLER ||
+            // Light Weapons
+            weaponId == WEAPON_P2020 ||
+            weaponId == WEAPON_RE45 ||
             weaponId == WEAPON_ALTERNATOR ||
             weaponId == WEAPON_R99 ||
+            weaponId == WEAPON_R301 ||
+            weaponId == WEAPON_SPITFIRE ||
+            //weaponId == WEAPON_G7 ||
+
+            // Heavy Weapons
+            weaponId == WEAPON_FLATLINE ||
+            weaponId == WEAPON_HEMLOCK ||
+            //weaponId == WEAPON_P3030 ||
+            weaponId == WEAPON_RAMPAGE ||
             weaponId == WEAPON_CAR ||
-            weaponId == WEAPON_P2020 ||
+
+            // Shotgun Weapons      
             weaponId == WEAPON_MOZAMBIQUE ||
             weaponId == WEAPON_EVA8 ||
-            weaponId == WEAPON_RE45);
+            //weaponId == WEAPON_PEACEKEEPER ||
+            //weaponId == WEAPON_MASTIFF ||
+
+            // Energy Weapons
+            weaponId == WEAPON_HAVOC ||
+            weaponId == WEAPON_DEVOTION ||
+            weaponId == WEAPON_LSTAR ||
+            weaponId == WEAPON_TRIPLE_TAKE ||
+            weaponId == WEAPON_VOLT ||
+            //weaponId == WEAPON_NEMESIS ||
+
+            // Sniper Weapons
+            //weaponId == WEAPON_LONGBOW ||
+            //weaponId == WEAPON_CHARGE_RIFLE ||
+            //weaponId == WEAPON_SENTINEL ||
+
+            // RED Weapons
+            weaponId == WEAPON_WINGMAN ||
+            weaponId == WEAPON_PROWLER ||
+            weaponId == WEAPON_BOCEK ||
+            //weaponId == WEAPON_KRABER ||
+            weaponId == WEAPON_THROWING_KNIFE ||
+            weaponId == BUSTER_SWORD_R2R5
+            );
 
         bool activatedByAttackingAndIsAttacking = cl->AIMBOT_ACTIVATED_BY_ATTACK && localPlayer->inAttack;
         bool activatedByADSAndIsADSing = cl->AIMBOT_ACTIVATED_BY_ADS && localPlayer->inZoom;

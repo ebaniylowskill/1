@@ -47,11 +47,11 @@ constexpr long OFF_NAMEINDEX = 0x38;                          //nameIndex
 // Weapon
 constexpr long OFF_WEAPON_HANDLE = 0x18f4;                    //[RecvTable.DT_Player]->m_latestPrimaryWeapons
 constexpr long OFF_WEAPON_INDEX = 0x1738;                     //[RecvTable.DT_WeaponX]->m_weaponNameIndex
-constexpr long OFFSET_AMMO = 0x1514;                          // m_ammoInClip
+constexpr long OFF_WEAPON_AMMO = 0x1514;                          // m_ammoInClip
 constexpr long OFF_GRENADE_HANDLE = 0x1904;                   //[RecvTable.DT_Player]->m_latestNonOffhandWeapons
-constexpr long OFFSET_TIME_BASE = 0x2048;                     //m_currentFramePlayer.timeBase
 constexpr long OFF_SKIN = 0x0d18;                             // m_nSkin
 constexpr long OFF_WEAPON_DISCARDED = 0x1559;                 //[RecvTable.DT_WeaponX]->m_discarded
+constexpr long OFFSET_TIME_BASE = 0x2048;                     //m_currentFramePlayer.timeBase
 
 constexpr long OFF_PROJECTILESCALE = 0x04ec;                  //projectile_gravity_scale + BASE o
 constexpr long OFF_PROJECTILESPEED = 0x04e4;                  //projectile_launch_speed + BASE o

@@ -59,7 +59,7 @@ int main() {
                 //printf("[ INFO  ] Not in game! Sleeping 10 seconds...\n");
                 secCounter = secCounter + 10;
                 std::cout << "\r" 
-                    <<  "[ INFO  ] Player in Lobby - Sleeping...                                "
+                    <<  "[ INFO  ] Player in Lobby - Waiting for the game to start...                                "
                     << std::flush;
                 std::this_thread::sleep_for(std::chrono::milliseconds(10000));
                 continue;
@@ -107,29 +107,29 @@ int main() {
 
             //print loop info every now and then
             if (counter % 500 == 0) {
-                std::cout << "\r" 
-                    <<  "[ INFO  ] [" 
-                    << std::setw(4) << counter << "] - Time: " 
-                    << std::setw(2) << processingTime << "ms                                               "
-                    << std::flush;
+                if (processingTime >= 20) {
+                    std::cout << "\r" 
+                        <<  "[ INFO  ] [" 
+                        << std::setw(4) << counter << "] \033[32mGAME STARTED\033[0m - Processing Time: \033[31m" 
+                        << std::setw(2) << processingTime << "ms\033[0m                                               "
+                        << std::flush;
+                } else {
+                        std::cout << "\r" 
+                        <<  "[ INFO  ] [" 
+                        << std::setw(4) << counter << "] \033[32mGAME STARTED\033[0m - Processing Time: \033[32m" 
+                        << std::setw(2) << processingTime << "ms\033[0m                                               "
+                        << std::flush;
+                }
             }
             //update counter
             counter = (counter < 1000) ? ++counter : counter = 0;
         }
         catch (std::invalid_argument& e) {
-            if (!strcmp(e.what(),"Select Legend")) {
-                //printf("[ INFO  ] %s - Sleeping...", e.what());
                 std::cout << "\r" 
-                    << "[ INFO  ] " << e.what() << " - Sleeping...                                         "
+                    << "[ INFO  ] " << e.what() << " - Waiting for the game to start...                                         "
                     << std::flush;
-                std::this_thread::sleep_for(std::chrono::seconds(20));
-            } else {
-                //printf("[ ERROR ] %s - Sleeping...", e.what());
-                std::cout << "\r" 
-                    << "[ INFO  ] " << e.what() << " - Sleeping...                                          "
-                    << std::flush;
-                std::this_thread::sleep_for(std::chrono::seconds(10));
-            }
+                std::this_thread::sleep_for(std::chrono::seconds(5));
+
         }
         catch (...) {
             //printf("\n[ ERROR ] Unknown Error - Sleeping... \n");

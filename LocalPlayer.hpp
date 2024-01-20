@@ -56,7 +56,7 @@ struct LocalPlayer {
             weaponDiscarded = mem::Read<int>(weaponEntity + OFF_WEAPON_DISCARDED, "LocalPlayer weaponDiscarded") == 1;
 
             grenadeID = mem::Read<int>(base + OFF_GRENADE_HANDLE, "LocalPlayer grenadeID");
-            ammoInClip = mem::Read<int>(weaponEntity + OFFSET_AMMO, "LocalPlayer ammoInClip");     
+            ammoInClip = mem::Read<int>(weaponEntity + OFF_WEAPON_AMMO, "LocalPlayer ammoInClip");     
             WeaponProjectileSpeed = mem::Read<float>(weaponEntity + OFF_PROJECTILESPEED, "LocalPlayer WeaponProjectileSpeed");
             WeaponProjectileScale = mem::Read<float>(weaponEntity + OFF_PROJECTILESCALE, "LocalPlayer WeaponProjectileScale"); 
         }

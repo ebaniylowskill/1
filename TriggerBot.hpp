@@ -25,6 +25,10 @@ struct TriggerBot {
         // printf("Last weapon held: %s id: %d \n", WeaponName(weaponId).c_str(), weaponId);
         if (
             //weaponId != WEAPON_KRABER &&
+            //weaponId != WEAPON_HEMLOCK &&
+            //weaponId != WEAPON_NEMESIS &&
+            //weaponId != WEAPON_PROWLER &&
+            //weaponId != WEAPON_THROWING_KNIFE &&
             weaponId != WEAPON_P2020 &&
             weaponId != WEAPON_MOZAMBIQUE &&
             weaponId != WEAPON_EVA8 &&
@@ -33,13 +37,10 @@ struct TriggerBot {
             weaponId != WEAPON_WINGMAN &&
             weaponId != WEAPON_LONGBOW &&
             weaponId != WEAPON_SENTINEL &&
-            //weaponId != WEAPON_G7 &&
-            //weaponId != WEAPON_HEMLOCK &&
+            weaponId != WEAPON_G7 &&
             weaponId != WEAPON_3030 &&
-            weaponId != WEAPON_TRIPLE_TAKE
-            //weaponId != WEAPON_NEMESIS &&
-            //weaponId != WEAPON_BOCEK &&
-            //weaponId != WEAPON_PROWLER
+            weaponId != WEAPON_TRIPLE_TAKE &&
+            weaponId != WEAPON_BOCEK
             )return;
 
         //max range changes based on if we are zoomed in or not
