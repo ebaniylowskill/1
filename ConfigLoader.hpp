@@ -107,7 +107,7 @@ struct ConfigLoader {
     }
 
     void print() {
-        printf("\n=============== GRINDER SETTINGS LOADED (1/15/2024) ==================\n");
+        printf("\n===== GRINDER SETTINGS LOADED - R5Apex v3.0.54.31 (1/19/2024) =======\n");
         
         //screen resolution
         printf("SCREEN_WIDTH\t\t\t\t\t\t%.d\n", SCREEN_WIDTH);
